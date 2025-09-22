@@ -111,6 +111,21 @@ jobs:
           chmod +x diy.sh
           ./diy.sh
 
+      - name: 自定义 feeds 配置 (Custom feeds configuration)
+        working-directory: openWRT
+        run: |
+          # 清空默认的feeds配置
+          > feeds.conf.default
+          
+          # 添加自定义feeds
+          echo "src-git packages https://git.openwrt.org/feed/packages.git" >> feeds.conf.default
+          echo "src-git luci https://git.openwrt.org/project/luci.git" >> feeds.conf.default
+          echo "src-git routing https://git.openwrt.org/feed/routing.git" >> feeds.conf.default
+          echo "src-git telephony https://git.openwrt.org/feed/telephony.git" >> feeds.conf.default
+          echo "src-git nss_packages https://github.com/qosmio/nss-packages.git;NSS-12.5-K6.x" >> feeds.conf.default
+          echo "src-git sqm_scripts_nss https://github.com/qosmio/sqm-scripts-nss.git" >> feeds.conf.default
+          echo "src-git video https://github.com/openwrt/video.git" >> feeds.conf.default
+
       - name: 更新并下载 feeds (Update and download feeds)
         working-directory: openWRT
         run: ./scripts/feeds update -a && ./scripts/feeds install -a
